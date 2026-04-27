@@ -60,19 +60,6 @@
                 </div>
             </form>
         </div>
-
-        <!-- Tip -->
-        <div class="mt-8 rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800">
-            <div class="flex items-center gap-2 text-blue-600 dark:text-blue-400">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <p class="text-xs font-bold uppercase tracking-widest">Session Storage</p>
-            </div>
-            <p class="mt-1 text-sm text-blue-700 dark:text-blue-300">
-                Data is stored in your browser session and will be lost when you clear your cache.
-            </p>
-        </div>
     </div>
 </body>
 

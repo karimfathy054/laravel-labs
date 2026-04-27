@@ -1,6 +1,5 @@
 @php
-    $allPosts = session('posts');
-    $currentPost = $allPosts[$id];
+    $currentPost = $post;
 @endphp
 
 <!DOCTYPE html>

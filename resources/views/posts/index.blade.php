@@ -1,6 +1,5 @@
 @php
-    // Get all posts for display
-    $allPosts = session('posts', []);
+    $allPosts=$posts;
 @endphp
 
 <!DOCTYPE html>

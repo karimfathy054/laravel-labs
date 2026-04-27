@@ -1,37 +1,24 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/posts', function () {
-    return view('posts.index');
-});
+Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
 
-Route::get('/posts/create', function () {
-    return view('posts.create');
-});
+Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
 
-Route::post('/posts', function () {
-    $data = request()->only(['title', 'content']);
+Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
 
-    return view('posts.store', compact('data'));
-});
+Route::get('/posts/{id}', [PostController::class, 'show'])->where('id', '[0-9]+')->name('posts.show');
 
-Route::get('/posts/{id}', function ($id) {
-    return view('posts.show', compact('id'));
-})->where('id', '[0-9]+');
+Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->where('id', '[0-9]+')->name('posts.edit');
 
-Route::get('/posts/{id}/edit', function ($id) {
-    return view('posts.edit', compact('id'));
-})->where('id', '[0-9]+');
+Route::put('/posts/{id}', [PostController::class, 'update'])->where('id', '[0-9]+')->name('posts.update');
 
-Route::put('/posts/{id}', function ($id) {
-    return view('posts.update', compact('id'));
-})->where('id', '[0-9]+');
+Route::delete('/posts/{id}', [PostController::class, 'destroy'])->where('id', '[0-9]+')->name('posts.destroy');
 
-Route::delete('/posts/{id}', function ($id) {
-    return view('posts.destroy', compact('id'));
-})->where('id', '[0-9]+');
+// Route::resource('posts', PostController::class);

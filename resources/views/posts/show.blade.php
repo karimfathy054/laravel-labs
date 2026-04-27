@@ -1,15 +1,5 @@
 @php
-
-
-
-// Get all posts for display
-$allPosts = session('posts');
-if(!isset($allPosts[$id])) {
-abort(404);
-}
-$currentPost = $allPosts[$id];
-var_dump($allPosts);
-die;
+$currentPost = $post;
 @endphp
 
 <!DOCTYPE html>
@@ -24,11 +14,6 @@ die;
 
 <body class="bg-gray-50 dark:bg-gray-900 min-h-screen p-6 sm:p-8">
     <div class="max-w-xl mx-auto">
-        <!-- Stats / Header -->
-        <div class="mb-8">
-            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total posts in session: {{ count($allPosts) }}</p>
-        </div>
-
         <!-- Post Card (Hyper UI Inspired) -->
         <article class="rounded-xl border border-gray-100 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-800 sm:p-6 lg:p-8">
             <div class="flex items-start justify-between">
