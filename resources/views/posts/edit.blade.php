@@ -2,17 +2,11 @@
     $currentPost = $post;
 @endphp
 
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.main')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Edit Post - {{ config('app.name', 'Laravel') }}</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
+@section('title', 'Edit Post')
 
-<body class="bg-gray-50 dark:bg-gray-900 min-h-screen p-6 sm:p-8">
+@section('content')
     <div class="max-w-xl mx-auto">
         <!-- Breadcrumb / Header -->
         <div class="mb-8 flex items-center justify-between">
@@ -45,6 +39,9 @@
                         required
                         value="{{ $currentPost['title'] }}"
                     />
+                    @error('title')
+                        <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
@@ -57,6 +54,23 @@
                         name="content"
                         required
                     >{{ $currentPost['content'] }}</textarea>
+                    @error('content')
+                        <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- drop down menu of post creator IDs --}}
+                <div>
+                    <label for="creator_id">Post Creator</label>
+                    <select name="creator_id" id="creator_id" class="w-full rounded-lg border-gray-200 p-3 text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all shadow-sm">
+                        <option value="{{ $currentPost['creator_id'] }}">Select User</option>
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}" @if($user->id == $currentPost['creator_id']) selected @endif>{{ $user->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('creator_id')
+                        <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="mt-4">
@@ -70,6 +84,4 @@
             </form>
         </div>
     </div>
-</body>
-
-</html>
+@endsection

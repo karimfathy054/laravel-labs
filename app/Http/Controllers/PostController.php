@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Validation\Rule;
 
 class PostController extends Controller
 {
@@ -13,19 +14,20 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::withTrashed()->paginate(10);
+
         return view('posts.index', compact('posts'));
     }
-
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('posts.create');
-    }
+        $users = User::all();
 
+        return view('posts.create', compact('users'));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -33,8 +35,8 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
+            'title' => ['required', 'unique:posts,title', 'min:3'],
+            'content' => ['required', 'string', 'min:10'],
         ]);
 
         Post::create($validated);
@@ -42,16 +44,15 @@ class PostController extends Controller
         return redirect()->route('posts.index');
     }
 
-
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
         $post = Post::findOrFail($id);
+
         return view('posts.show', compact('post'));
     }
-
 
     /**
      * Show the form for editing the specified resource.
@@ -59,9 +60,10 @@ class PostController extends Controller
     public function edit(string $id)
     {
         $post = Post::findOrFail($id);
-        return view('posts.edit', compact('post'));
-    }
+        $users = User::all();
 
+        return view('posts.edit', compact('post', 'users'));
+    }
 
     /**
      * Update the specified resource in storage.
@@ -69,8 +71,8 @@ class PostController extends Controller
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
+            'title' => ['required', Rule::unique('posts', 'title')->ignore($id), 'min:3'],
+            'content' => ['required', 'string', 'min:10'],
         ]);
 
         $post = Post::findOrFail($id);
@@ -79,16 +81,18 @@ class PostController extends Controller
         return redirect()->route('posts.index');
     }
 
-
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        $post = Post::findOrFail($id);
-        $post->delete();
+        $post = Post::withTrashed()->findOrFail($id);
+        if ($post->trashed()) {
+            $post->restore();
+        } else {
+            $post->delete();
+        }
 
         return redirect()->route('posts.index');
     }
-
 }

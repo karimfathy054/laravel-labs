@@ -2,18 +2,13 @@
     $allPosts=$posts;
 @endphp
 
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.main')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>All Posts - {{ config('app.name', 'Laravel') }}</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
+@section('title', 'All Posts')
 
-<body class="bg-gray-50 dark:bg-gray-900 min-h-screen p-6 sm:p-8">
-    <div class="max-w-5xl mx-auto">
+@section('content')
+
+    <div class="max-w-7xl mx-auto">
         <div class="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
             <div>
                 <h1 class="text-2xl font-bold text-gray-900 dark:text-white">All Posts</h1>
@@ -77,12 +72,21 @@
                             >
                                 @csrf
                                 @method('DELETE')
+                                @if($post->trashed())
+                                <button
+                                    type="submit"
+                                    class="inline-block rounded bg-green-600 px-4 py-2 text-xs font-medium text-white hover:bg-green-700 transition-colors"
+                                >
+                                    Restore
+                                </button>
+                                @else
                                 <button
                                     type="submit"
                                     class="inline-block rounded bg-red-600 px-4 py-2 text-xs font-medium text-white hover:bg-red-700 transition-colors"
                                 >
                                     Delete
                                 </button>
+                                @endif
                             </form>
                         </td>
                     </tr>
@@ -99,6 +103,13 @@
                     </tr>
                     @endforelse
                 </tbody>
+                <tfoot class="bg-gray-50 dark:bg-gray-800">
+                    <tr>
+                        <td colspan="3" class="px-4 py-4 text-center">
+                            {{ $allPosts->links() }}
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>
@@ -116,6 +127,4 @@
             });
         });
     </script>
-</body>
-
-</html>
+@endsection

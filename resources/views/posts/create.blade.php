@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.main')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Create New Post - {{ config('app.name', 'Laravel') }}</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
+@section('title', 'Create New Post')
 
-<body class="bg-gray-50 dark:bg-gray-900 min-h-screen p-6 sm:p-8">
+@section('content')
+
     <div class="max-w-xl mx-auto">
         <!-- Breadcrumb / Header -->
         <div class="mb-8 flex items-center justify-between">
@@ -39,6 +34,9 @@
                         name="title"
                         required />
                 </div>
+                @error('title')
+                    <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                @enderror
 
                 <div>
                     <label class="sr-only" for="content">Content</label>
@@ -51,6 +49,24 @@
                         required></textarea>
                 </div>
 
+                @error('content')
+                    <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                @enderror
+
+                {{-- drop down menu of post creator IDs --}}
+                <div>
+                    <label for="user_id">Post Creator</label>
+                    <select name="user_id" id="user_id" class="w-full rounded-lg border-gray-200 p-3 text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all shadow-sm">
+                        <option value="">Select User</option>
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('user_id')
+                        <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <div class="mt-4">
                     <button
                         type="submit"
@@ -61,6 +77,4 @@
             </form>
         </div>
     </div>
-</body>
-
-</html>
+@endsection
