@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class PostController extends Controller
@@ -37,7 +38,13 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'unique:posts,title', 'min:3'],
             'content' => ['required', 'string', 'min:10'],
+            'image' => ['nullable', 'image', 'max:2048'],
+            'creator_id' => ['required', 'exists:users,id'],
         ]);
+
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('images', 'public');
+        }
 
         Post::create($validated);
 
@@ -73,7 +80,13 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => ['required', Rule::unique('posts', 'title')->ignore($id), 'min:3'],
             'content' => ['required', 'string', 'min:10'],
+            'image' => ['nullable', 'image', 'max:2048'],
+            'creator_id' => ['required', 'exists:users,id'],
         ]);
+
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('images', 'public');
+        }
 
         $post = Post::findOrFail($id);
         $post->update($validated);
@@ -90,7 +103,10 @@ class PostController extends Controller
         if ($post->trashed()) {
             $post->restore();
         } else {
-            $post->delete();
+            if ($post->image) {
+                Storage::disk('public')->delete($post->image);
+            }
+            $post->forceDelete();
         }
 
         return redirect()->route('posts.index');

@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.app')
 
 @section('title', 'Create New Post')
 
@@ -21,7 +21,7 @@
 
         <!-- Hyper UI Form Card -->
         <div class="rounded-lg bg-white p-8 shadow-lg dark:bg-gray-800 lg:col-span-3 lg:p-12 border border-gray-100 dark:border-gray-700">
-            <form action="/posts" method="POST" class="space-y-6">
+            <form action="/posts" method="POST" class="space-y-6" enctype="multipart/form-data">
                 @csrf
 
                 <div>
@@ -63,6 +63,14 @@
                         @endforeach
                     </select>
                     @error('user_id')
+                        <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="image">Image</label>
+                    <input type="file" accept="image/*" name="image" id="image" class="w-full rounded-lg border-gray-200 p-3 text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all shadow-sm">
+                    @error('image')
                         <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
                     @enderror
                 </div>

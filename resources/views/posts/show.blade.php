@@ -2,7 +2,7 @@
 $currentPost = $post;
 @endphp
 
-@extends('layouts.main')
+@extends('layouts.app')
 
 @section('title', 'Post Details')
 
@@ -27,13 +27,19 @@ $currentPost = $post;
                     {{ $currentPost['content'] }}
                 </p>
             </div>
+
+            @if ($currentPost['image'])
+                <div class="mt-4 sm:mt-6">
+                    <img src="{{ asset('storage/' . $currentPost['image']) }}" alt="{{ $currentPost['title'] }}" class="w-full rounded-lg shadow-sm">
+                </div>
+            @endif
         </article>
 
         {{-- creator data --}}
         <article class="m-4 rounded-xl border border-gray-100 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-800 sm:p-6 lg:p-8">
                 <div class="flex gap-4 mt-4">
                     <h2>Creator:</h2>
-                    <p>{{ $post['creator_id'] }}</p>
+                    <p>{{ $post->creator->name ?? 'Deleted User' }}</p>
                 </div>
 
                 <div class="flex gap-4 mt-4">

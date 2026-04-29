@@ -2,7 +2,7 @@
     $allPosts=$posts;
 @endphp
 
-@extends('layouts.main')
+@extends('layouts.app')
 
 @section('title', 'All Posts')
 
