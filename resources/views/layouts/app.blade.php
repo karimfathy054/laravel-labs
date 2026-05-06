@@ -28,7 +28,7 @@
             @endisset
 
             <!-- Page Content -->
-            <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-12">
+            <main class="max-w-fit mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-12">
                 @yield('content')
             </main>
         </div>

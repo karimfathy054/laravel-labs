@@ -8,7 +8,7 @@
 
 @section('content')
 
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-full mx-auto">
         <div class="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
             <div>
                 <h1 class="text-2xl font-bold text-gray-900 dark:text-white">All Posts</h1>
@@ -29,6 +29,7 @@
             <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm dark:divide-gray-700 dark:bg-gray-900">
                 <thead class="bg-gray-50 dark:bg-gray-800 ltr:text-left rtl:text-right">
                     <tr>
+                        <th class="whitespace-nowrap px-4 py-4 font-bold text-gray-900 dark:text-white text-left">Slug</th>
                         <th class="whitespace-nowrap px-4 py-4 font-bold text-gray-900 dark:text-white text-left">Title</th>
                         <th class="whitespace-nowrap px-4 py-4 font-bold text-gray-900 dark:text-white text-left">Content Preview</th>
                         <th class="px-4 py-4"></th>
@@ -41,6 +42,9 @@
                         data-url="/posts/{{ $post['id'] }}"
                         class="clickable-row hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer group"
                     >
+                        <td class="whitespace-nowrap px-4 py-4 text-gray-700 dark:text-gray-200">
+                            {{ $post['slug'] }}
+                        </td>
                         <td class="whitespace-nowrap px-4 py-4 text-gray-700 dark:text-gray-200">
                             {{ $post['title'] }}
                         </td>
@@ -105,7 +109,7 @@
                 </tbody>
                 <tfoot class="bg-gray-50 dark:bg-gray-800">
                     <tr>
-                        <td colspan="3" class="px-4 py-4 text-center">
+                        <td colspan="4" class="px-4 py-4 text-center">
                             {{ $allPosts->links() }}
                         </td>
                     </tr>
