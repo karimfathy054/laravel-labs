@@ -55,14 +55,14 @@
 
                 {{-- drop down menu of post creator IDs --}}
                 <div>
-                    <label for="user_id">Post Creator</label>
-                    <select name="user_id" id="user_id" class="w-full rounded-lg border-gray-200 p-3 text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all shadow-sm">
+                    <label for="creator_id">Post Creator</label>
+                    <select name="creator_id" id="creator_id" class="w-full rounded-lg border-gray-200 p-3 text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all shadow-sm">
                         <option value="">Select User</option>
                         @foreach ($users as $user)
                             <option value="{{ $user->id }}">{{ $user->name }}</option>
                         @endforeach
                     </select>
-                    @error('user_id')
+                    @error('creator_id')
                         <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
                     @enderror
                 </div>
